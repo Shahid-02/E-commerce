@@ -1,9 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { RootModule } from './root.module';
 import * as cookieParser from 'cookie-parser';
+import helmet from 'helmet';
+import * as csurf from 'csurf';
+import { CustomLogger } from './helpers/logger/custom-logger.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(RootModule);
+  const app = await NestFactory.create(RootModule, {
+    logger: console,
+  });
+
+  // logger
+  // app.useLogger(Logger);
+
+  // helmet used for headers security
+  app.use(helmet());
+
+  // Csurf configuration
+  // app.use(csurf());
 
   // Enable CORS for cross-origin resource sharing
   app.enableCors({

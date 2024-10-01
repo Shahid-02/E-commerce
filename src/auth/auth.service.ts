@@ -7,6 +7,7 @@ import * as bcrypt from 'bcryptjs';
 import { LoginUserDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express'; // Ensure Response is imported from 'express'
+import { CustomLogger } from 'src/helpers/logger/custom-logger.service';
 
 @Injectable()
 export class AuthService {
@@ -14,15 +15,23 @@ export class AuthService {
     @InjectRepository(User)
     private authRepository: Repository<User>,
     private jwtService: JwtService,
+    private logger: CustomLogger,
   ) {}
 
   async Register(registerUserDto: RegisterUserDto) {
     try {
+      this.logger.log(
+        `Attempting to register user with email: ${registerUserDto.email}`,
+      );
+
       const user = await this.authRepository.findOne({
         where: { email: registerUserDto.email },
       });
 
       if (user) {
+        this.logger.warn(
+          `User with email ${registerUserDto.email} already exists`,
+        );
         throw new HttpException(
           'User with this email already exists',
           HttpStatus.CONFLICT,
@@ -37,11 +46,17 @@ export class AuthService {
 
         if (newUser) {
           await this.authRepository.save(newUser);
+          this.logger.log(
+            `User with email ${registerUserDto.email} registered successfully`,
+          );
           return {
             success: true,
             message: 'Registration successful',
           };
         } else {
+          this.logger.error(
+            `Failed to create user with email: ${registerUserDto.email}`,
+          );
           throw new HttpException(
             'Failed to create user',
             HttpStatus.BAD_GATEWAY,
@@ -49,13 +64,20 @@ export class AuthService {
         }
       }
     } catch (error) {
-      console.error(error);
+      this.logger.error(
+        `Error during registration for email: ${registerUserDto.email}`,
+        error.stack,
+      );
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async login(loginUserDto: LoginUserDto, @Res() res: Response) {
     try {
+      this.logger.log(
+        `Attempting login for user with email: ${loginUserDto.email}`,
+      );
+
       const user = await this.authRepository.findOne({
         where: { email: loginUserDto.email },
       });
@@ -67,6 +89,10 @@ export class AuthService {
         );
 
         if (isMatch) {
+          this.logger.log(
+            `User with email ${loginUserDto.email} logged in successfully`,
+          );
+
           const payload = {
             id: user.id,
             email: user.email,
@@ -89,30 +115,38 @@ export class AuthService {
             },
           });
         } else {
+          this.logger.warn(
+            `Password mismatch for user with email: ${loginUserDto.email}`,
+          );
           throw new HttpException(
             'Password is incorrect',
             HttpStatus.UNAUTHORIZED,
           );
         }
       } else {
+        this.logger.warn(`User with email ${loginUserDto.email} not found`);
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
     } catch (error) {
-      console.error(error);
+      this.logger.error(
+        `Error during login for email: ${loginUserDto.email}`,
+        error.stack,
+      );
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   async logout(@Res() res: Response) {
     try {
+      this.logger.log('User logging out, clearing token');
       // Clear the JWT cookie
-      res.clearCookie('token'); // Make sure you are using Express
+      res.clearCookie('token');
       return res.json({
         success: true,
         message: 'Logged out successfully!',
       });
     } catch (error) {
-      console.error(error.message);
+      this.logger.error('Error during logout', error.stack);
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }

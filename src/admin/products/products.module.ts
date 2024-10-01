@@ -5,9 +5,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from 'src/models/product.entity';
 import { CloudinaryModule } from 'src/helpers/cloudinary/cloudinary.module';
 import { RedisModule } from 'src/redis/redis.module';
+import { LoggerModule } from 'src/helpers/logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product]), CloudinaryModule, RedisModule],
+  imports: [
+    TypeOrmModule.forFeature([Product]),
+    CloudinaryModule,
+    RedisModule,
+    LoggerModule,
+  ],
   controllers: [ProductsController],
   providers: [ProductsService],
 })

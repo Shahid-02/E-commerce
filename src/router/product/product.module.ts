@@ -4,9 +4,10 @@ import { Providers1Service } from './product.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Product } from 'src/models/product.entity';
 import { RedisModule } from 'src/redis/redis.module';
+import { LoggerModule } from 'src/helpers/logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product]), RedisModule],
+  imports: [TypeOrmModule.forFeature([Product]), RedisModule, LoggerModule],
   controllers: [Providers1Controller],
   providers: [Providers1Service],
 })
