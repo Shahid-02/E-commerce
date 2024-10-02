@@ -13,6 +13,7 @@ import { RatelimitingModule } from './helpers/ratelimiting/ratelimiting.module';
 import { APP_GUARD } from '@nestjs/core';
 import { SearchModule } from './router/search/search.module';
 import { CustomLogger } from './helpers/logger/custom-logger.service';
+import { AddressModule } from './router/address/address.module';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { CustomLogger } from './helpers/logger/custom-logger.service';
       port: 5432,
       username: 'postgres',
       password: 'khan72242',
-      database: 'gcomdatabase',
+      database: 'testing',
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -39,9 +40,10 @@ import { CustomLogger } from './helpers/logger/custom-logger.service';
     CommonModule,
     Providers1Module,
     ReviewModule,
-    RedisModule,
+    // RedisModule,
     // RatelimitingModule,
     SearchModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [

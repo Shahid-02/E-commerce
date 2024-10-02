@@ -52,8 +52,6 @@ function ShoppingHome() {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-
-  console.log(productList , "hsbrdfkwuerfviweu");
   
   const { featureImageList } = useSelector((state) => state.commonFeature);
 

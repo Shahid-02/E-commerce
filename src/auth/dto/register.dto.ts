@@ -11,8 +11,4 @@ export class RegisterUserDto {
   @IsString()
   @MinLength(8)
   password: string;
-
-  @IsOptional()
-  @IsString()
-  role?: string = 'admin';
 }

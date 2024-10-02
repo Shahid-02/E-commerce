@@ -12,7 +12,7 @@ export class Address {
   id: number;
 
   @Column()
-  userId: string;
+  userId: number;
 
   @Column()
   address: string;
