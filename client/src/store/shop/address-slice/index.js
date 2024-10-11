@@ -26,7 +26,6 @@ export const fetchAllAddresses = createAsyncThunk(
     const response = await axios.get(
       `http://localhost:4000/api/shop/address/get/${userId}`
     );
-
     return response.data;
   }
 );
@@ -72,8 +71,9 @@ const addressSlice = createSlice({
       .addCase(fetchAllAddresses.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchAllAddresses.fulfilled, (state, action) => {
+      .addCase(fetchAllAddresses.fulfilled, (state, action) => {        
         state.isLoading = false;
+        
         state.addressList = action.payload.data;
       })
       .addCase(fetchAllAddresses.rejected, (state) => {

@@ -19,16 +19,16 @@ export class Providers1Service {
       const client = this.redisService.getClient();
       this.logger.log('Checking cache for filtered products');
 
-      // Check cache first
-      const cachedData = await client.get(JSON.stringify(query));
-      if (cachedData) {
-        this.logger.log('Cache hit for filtered products');
-        return {
-          success: true,
-          message: 'Data retrieved from cache',
-          data: JSON.parse(cachedData),
-        };
-      }
+      // // Check cache first
+      // const cachedData = await client.get(JSON.stringify(query));
+      // if (cachedData) {
+      //   this.logger.log('Cache hit for filtered products');
+      //   return {
+      //     success: true,
+      //     message: 'Data retrieved from cache',
+      //     data: JSON.parse(cachedData),
+      //   };
+      // }
 
       this.logger.log('Cache miss, querying database for filtered products');
       const { category = '', brand = '', sortBy = 'price-lowtohigh' } = query;
@@ -70,13 +70,13 @@ export class Providers1Service {
 
       this.logger.log('Database query successful, caching the result');
 
-      // Cache the result
-      await client.set(
-        JSON.stringify(query),
-        JSON.stringify(products),
-        'EX',
-        3600,
-      ); // 1 hour cache
+      // // Cache the result
+      // await client.set(
+      //   JSON.stringify(query),
+      //   JSON.stringify(products),
+      //   'EX',
+      //   3600,
+      // ); // 1 hour cache
 
       return {
         success: true,

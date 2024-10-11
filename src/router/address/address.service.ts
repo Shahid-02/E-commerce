@@ -39,7 +39,7 @@ export class AddressService {
       }
 
       const addressList = await this.addressRepository.findOne({
-        where: { id: userId },
+        where: { userId },
       });
 
       console.log(addressList, 'herere');

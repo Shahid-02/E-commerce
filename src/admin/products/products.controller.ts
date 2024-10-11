@@ -81,8 +81,6 @@ export class ProductsController {
 
   @Delete('/delete/:id')
   async deleteProduct(@Param('id') id: number) {
-    console.log(id, 'delete product id');
-
     return this.productsService.deleteProduct(id);
   }
 }

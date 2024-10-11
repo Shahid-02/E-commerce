@@ -24,6 +24,8 @@ export class MiddlewareService implements CanActivate {
 
     try {
       const decoded = jwt.verify(token, 'snlavnkwevnowe');
+      console.log(decoded, 'here');
+
       request.user = decoded;
       return true;
     } catch (error) {

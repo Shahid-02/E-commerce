@@ -6,7 +6,7 @@ import { RegisterUserDto } from './dto/register.dto';
 import * as bcrypt from 'bcryptjs';
 import { LoginUserDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express'; // Ensure Response is imported from 'express'
+import { Response } from 'express';
 import { CustomLogger } from 'src/helpers/logger/custom-logger.service';
 
 @Injectable()

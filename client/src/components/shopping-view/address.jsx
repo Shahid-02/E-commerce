@@ -26,10 +26,7 @@ export default function Address({ setCurrentSelectedAddress, selectedId }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.shopAddress);
-  const { toast } = useToast();
-
-  console.log(user , "id in here");
-  
+  const { toast } = useToast();  
 
   function handleManageAddress(event) {
     event.preventDefault();
@@ -104,10 +101,12 @@ export default function Address({ setCurrentSelectedAddress, selectedId }) {
   return (
     <Card>
       <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+       { console.log(addressList , "asjkdvinwlwfuiblek")}
+        
         {addressList && addressList.length > 0
           ? addressList.map((singleAddressItem) => (
               <AddressCard
-                key={singleAddressItem._id}
+                key={singleAddressItem.id}
                 selectedId={selectedId}
                 handleDeleteAddress={handleDeleteAddress}
                 addressInfo={singleAddressItem}

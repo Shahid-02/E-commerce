@@ -14,6 +14,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { SearchModule } from './router/search/search.module';
 import { CustomLogger } from './helpers/logger/custom-logger.service';
 import { AddressModule } from './router/address/address.module';
+import { OrderModule } from './admin/order/order.module';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { AddressModule } from './router/address/address.module';
       port: 5432,
       username: 'postgres',
       password: 'khan72242',
-      database: 'testing',
+      database: 'ecom',
       autoLoadEntities: true,
       synchronize: true,
     }),
@@ -40,10 +41,9 @@ import { AddressModule } from './router/address/address.module';
     CommonModule,
     Providers1Module,
     ReviewModule,
-    // RedisModule,
-    // RatelimitingModule,
     SearchModule,
     AddressModule,
+    OrderModule,
   ],
   controllers: [],
   providers: [

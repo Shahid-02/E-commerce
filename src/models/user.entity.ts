@@ -15,7 +15,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column({ default: 'user' })
+  @Column({ default: 'admin' })
   role: string;
 
   //   @OneToMany(() => Cart, (cart) => cart.user)
